@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
-
-import * as Font from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-import { Feather } from "@expo/vector-icons";
+import { Feather } from '@expo/vector-icons';
+import * as Font from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect, useState } from 'react';
 
 /** Hook to load resources or data that we need prior to rendering the app. */
 export default function useCachedResources() {

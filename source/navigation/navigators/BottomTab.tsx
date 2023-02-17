@@ -1,12 +1,11 @@
-import FeatherIcon from "@expo/vector-icons/Feather";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import FeatherIcon from '@expo/vector-icons/Feather';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import HistoryScreen from "../../screens/History";
-import LibraryScreen from "../../screens/Library";
-import SettingsScreen from "../../screens/Settings";
-import UpdatesScreen from "../../screens/Updates";
-
-import type { RootBottomTabParamList } from "../types";
+import HistoryScreen from '../../screens/History';
+import LibraryScreen from '../../screens/Library';
+import SettingsScreen from '../../screens/Settings';
+import UpdatesScreen from '../../screens/Updates';
+import type { RootBottomTabParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<RootBottomTabParamList>();
 
@@ -17,15 +16,12 @@ export default function BottomTabNavigator() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-      }}
-    >
+      }}>
       <BottomTab.Screen
         name="Library"
         component={LibraryScreen}
         options={{
-          tabBarIcon: ({ color }) => (
-            <BottomTabBarIcon name="home" color={color} />
-          ),
+          tabBarIcon: ({ color }) => <BottomTabBarIcon name="home" color={color} />,
         }}
       />
 
@@ -33,9 +29,7 @@ export default function BottomTabNavigator() {
         name="Updates"
         component={UpdatesScreen}
         options={{
-          tabBarIcon: ({ color }) => (
-            <BottomTabBarIcon name="bell" color={color} />
-          ),
+          tabBarIcon: ({ color }) => <BottomTabBarIcon name="bell" color={color} />,
         }}
       />
 
@@ -43,9 +37,7 @@ export default function BottomTabNavigator() {
         name="History"
         component={HistoryScreen}
         options={{
-          tabBarIcon: ({ color }) => (
-            <BottomTabBarIcon name="clock" color={color} />
-          ),
+          tabBarIcon: ({ color }) => <BottomTabBarIcon name="clock" color={color} />,
         }}
       />
 
@@ -53,16 +45,14 @@ export default function BottomTabNavigator() {
         name="Settings"
         component={SettingsScreen}
         options={{
-          tabBarIcon: ({ color }) => (
-            <BottomTabBarIcon name="settings" color={color} />
-          ),
+          tabBarIcon: ({ color }) => <BottomTabBarIcon name="settings" color={color} />,
         }}
       />
     </BottomTab.Navigator>
   );
 }
 
-type BottomTabBarIconName = React.ComponentProps<typeof FeatherIcon>["name"];
+type BottomTabBarIconName = React.ComponentProps<typeof FeatherIcon>['name'];
 
 interface BottomTabBarIconProps {
   name: BottomTabBarIconName;

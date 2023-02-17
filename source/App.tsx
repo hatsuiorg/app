@@ -1,15 +1,15 @@
-import "react-native-gesture-handler";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import 'react-native-gesture-handler';
 
-import * as SplashScreen from "expo-splash-screen";
-import * as NavigationBar from "expo-navigation-bar";
-import { registerRootComponent } from "expo";
-import { StatusBar } from "expo-status-bar";
+import { registerRootComponent } from 'expo';
+import * as NavigationBar from 'expo-navigation-bar';
+import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import Colors from "./constants/Colors";
-import useCachedResources from "./hooks/useCachedResources";
-import useColorScheme from "./hooks/useColorScheme";
-import Navigation from "./navigation";
+import Colors from './constants/Colors';
+import useCachedResources from './hooks/useCachedResources';
+import useColorScheme from './hooks/useColorScheme';
+import Navigation from './navigation';
 
 SplashScreen.preventAutoHideAsync();
 
