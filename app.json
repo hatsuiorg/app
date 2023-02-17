@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "entryPoint": "source/App.tsx",
+    "name": "hatsui",
+    "slug": "hatsui",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "assets/images/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "assets/images/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    }
+  }
+}
