@@ -1,30 +1,34 @@
-import { StyleSheet, Text, View } from "react-native";
+import "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import * as SplashScreen from "expo-splash-screen";
+import * as NavigationBar from "expo-navigation-bar";
 import { registerRootComponent } from "expo";
 import { StatusBar } from "expo-status-bar";
 
+import Colors from "./constants/Colors";
+import useCachedResources from "./hooks/useCachedResources";
+import useColorScheme from "./hooks/useColorScheme";
+import Navigation from "./navigation";
+
+SplashScreen.preventAutoHideAsync();
+
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
+  const isLoadingComplete = useCachedResources();
+  const colorScheme = useColorScheme();
 
-      <Text style={styles.text}>
-        Open up App.tsx to start working on your app!
-      </Text>
-    </View>
-  );
+  NavigationBar.setBackgroundColorAsync(Colors[colorScheme].shades[50]);
+
+  if (!isLoadingComplete) {
+    return null;
+  } else {
+    return (
+      <SafeAreaProvider>
+        <StatusBar style="auto" />
+        <Navigation colorScheme={colorScheme} />
+      </SafeAreaProvider>
+    );
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#000",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  text: {
-    color: "#fff",
-  },
-});
 
 registerRootComponent(App);
