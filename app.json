@@ -1,6 +1,6 @@
 {
   "expo": {
-    "entryPoint": "source/App.tsx",
+    "entryPoint": "AppEntry.tsx",
     "name": "hatsui",
     "slug": "hatsui",
     "version": "1.0.0",

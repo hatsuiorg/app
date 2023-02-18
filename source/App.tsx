@@ -1,6 +1,5 @@
 import 'react-native-gesture-handler';
 
-import { registerRootComponent } from 'expo';
 import * as NavigationBar from 'expo-navigation-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
@@ -30,5 +29,3 @@ export default function App() {
     );
   }
 }
-
-registerRootComponent(App);
