@@ -1,23 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Container, Header } from '../Updates/styles';
 
 export default function Library() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Library</Text>
-    </View>
+    <Container>
+      <Header>Library</Header>
+    </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    color: '#c4c4c4',
-    fontSize: 32,
-    fontWeight: 'bold',
-  },
-});
