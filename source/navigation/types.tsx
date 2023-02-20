@@ -2,12 +2,16 @@ import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import type { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
+import type { Novel, NovelChapter } from '../types/Novel';
+
 // @react-navigation/native-stack
 // @react-navigation/native-stack
 // @react-navigation/native-stack
 
 export type RootStackParamList = {
   Root: NavigatorScreenParams<RootBottomTabParamList> | undefined;
+  Novel: Novel;
+  Chapter: NovelChapter;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
