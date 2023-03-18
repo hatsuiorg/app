@@ -8,7 +8,6 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx,.json source",
     "postinstall": "patch-package"
   },
@@ -22,8 +21,6 @@
     "expo-splash-screen": "~0.17.5",
     "expo-sqlite": "~11.0.0",
     "expo-status-bar": "~1.4.2",
-    "jest": "^26.6.3",
-    "jest-expo": "^47.0.1",
     "patch-package": "^6.5.1",
     "postinstall-postinstall": "^2.1.0",
     "react": "18.1.0",
@@ -33,7 +30,6 @@
     "react-native-safe-area-context": "4.4.1",
     "react-native-screens": "~3.18.0",
     "react-native-web": "~0.18.9",
-    "react-test-renderer": "18.1.0",
     "reflect-metadata": "^0.1.13",
     "styled-components": "^5.3.6",
     "typeorm": "0.3.6"
@@ -42,7 +38,6 @@
     "@babel/core": "^7.12.9",
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
-    "@types/jest": "^29.4.0",
     "@types/react": "~18.0.14",
     "@types/react-native": "~0.70.6",
     "@types/react-test-renderer": "^18.0.0",

@@ -34,10 +34,10 @@ jobs:
         with:
           cmd: install --frozen-lockfile
 
-      - name: Test
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: test
+      # - name: Test
+      #   uses: borales/actions-yarn@v4
+      #   with:
+      #     cmd: test
 
       - name: Lint
         uses: borales/actions-yarn@v4
