@@ -1,5 +1,9 @@
 {
   "expo": {
+    "packagerOpts": {
+      "sourceExts": ["js", "jsx", "ts", "tsx"],
+      "transformer": "node_modules/react-native-typescript-transformer/index.js"
+    },
     "entryPoint": "AppEntry.tsx",
     "name": "hatsui",
     "slug": "hatsui",
@@ -15,9 +19,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "assets/images/adaptive-icon.png",

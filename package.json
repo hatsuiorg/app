@@ -9,7 +9,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx,.json source"
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx,.json source",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^6.5.5",
@@ -19,9 +20,12 @@
     "expo-font": "~11.0.1",
     "expo-navigation-bar": "~2.0.1",
     "expo-splash-screen": "~0.17.5",
+    "expo-sqlite": "~11.0.0",
     "expo-status-bar": "~1.4.2",
-    "jest": "29.0.0",
+    "jest": "^26.6.3",
     "jest-expo": "^47.0.1",
+    "patch-package": "^6.5.1",
+    "postinstall-postinstall": "^2.1.0",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
@@ -30,7 +34,9 @@
     "react-native-screens": "~3.18.0",
     "react-native-web": "~0.18.9",
     "react-test-renderer": "18.1.0",
-    "styled-components": "^5.3.6"
+    "reflect-metadata": "^0.1.13",
+    "styled-components": "^5.3.6",
+    "typeorm": "0.3.6"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -43,6 +49,7 @@
     "@types/styled-components-react-native": "^5.2.1",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.52.0",
+    "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "eslint": "^8.34.0",
     "eslint-config-universe": "^11.1.1",
     "husky": "^8.0.3",

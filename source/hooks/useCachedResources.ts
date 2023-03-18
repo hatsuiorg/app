@@ -3,6 +3,8 @@ import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 
+import dataSource from '../database/data-source';
+
 /** Hook to load resources or data that we need prior to rendering the app. */
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -14,6 +16,12 @@ export default function useCachedResources() {
       await Font.loadAsync({
         ...Feather.font,
       });
+
+      try {
+        await dataSource.initialize();
+      } catch (e) {
+        console.warn(e);
+      }
     }
 
     loadResourcesAndDataAsync()
