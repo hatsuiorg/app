@@ -2,6 +2,7 @@ import FeatherIcon from '@expo/vector-icons/Feather';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import HistoryScreen from '../../screens/History';
+import HomeScreen from '../../screens/Home';
 import LibraryScreen from '../../screens/Library';
 import SettingsScreen from '../../screens/Settings';
 import UpdatesScreen from '../../screens/Updates';
@@ -12,16 +13,24 @@ const BottomTab = createBottomTabNavigator<RootBottomTabParamList>();
 export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
-      initialRouteName="Library"
+      initialRouteName="Home"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
       }}>
       <BottomTab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ color }) => <BottomTabBarIcon name="home" color={color} />,
+        }}
+      />
+
+      <BottomTab.Screen
         name="Library"
         component={LibraryScreen}
         options={{
-          tabBarIcon: ({ color }) => <BottomTabBarIcon name="home" color={color} />,
+          tabBarIcon: ({ color }) => <BottomTabBarIcon name="book" color={color} />,
         }}
       />
 

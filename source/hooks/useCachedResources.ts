@@ -17,10 +17,8 @@ export default function useCachedResources() {
         ...Feather.font,
       });
 
-      try {
+      if (!dataSource.isInitialized) {
         await dataSource.initialize();
-      } catch (e) {
-        console.warn(e);
       }
     }
 

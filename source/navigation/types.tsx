@@ -25,6 +25,7 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> = Nati
 // @react-navigation/bottom-tabs
 
 export type RootBottomTabParamList = {
+  Home: undefined;
   Library: undefined;
   Updates: undefined;
   History: undefined;
