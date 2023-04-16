@@ -1,0 +1,9 @@
+{
+  "material-icon-theme.folders.associations": {
+    "chapter": "log",
+    "history": "components",
+    "navigation": "routes",
+    "navigators": "resolver",
+    "novel": "markdown"
+  }
+}
