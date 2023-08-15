@@ -37,3 +37,29 @@ export type RootBottomTabScreenProps<Screen extends keyof RootBottomTabParamList
     BottomTabScreenProps<RootBottomTabParamList, Screen>,
     NativeStackScreenProps<RootStackParamList>
   >;
+
+// Utility Types
+// Utility Types
+// Utility Types
+
+/** Use this type to get the props of a screen. */
+export type ScreenString =
+  | `Stack:${keyof RootStackParamList}`
+  | `Tab:${keyof RootBottomTabParamList}`;
+
+/**
+ * Get the props of a screen from its name.
+ *
+ * @example
+ * type Props = ScreenProps<'Stack:Novel'>;
+ * // => { ... }
+ */
+export type ScreenProps<Screen extends ScreenString> = Screen extends `Stack:${infer Stack}`
+  ? Stack extends keyof RootStackParamList
+    ? RootStackScreenProps<Stack>
+    : never
+  : Screen extends `Tab:${infer Tab}`
+  ? Tab extends keyof RootBottomTabParamList
+    ? RootBottomTabScreenProps<Tab>
+    : never
+  : never;

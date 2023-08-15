@@ -1,7 +1,7 @@
 import { Container, Header } from './styles';
-import type { RootStackScreenProps } from '../../navigation/types';
+import type { ScreenProps } from '../../navigation/types';
 
-export default function Chapter({ navigation, route }: RootStackScreenProps<'Chapter'>) {
+export default function Chapter({ navigation, route }: ScreenProps<'Stack:Chapter'>) {
   return (
     <Container>
       <Header>Chapter</Header>
