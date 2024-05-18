@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@expo/vector-icons':
+    specifier: ^14.0.2
+    version: 14.0.2
   '@react-navigation/bottom-tabs':
     specifier: ^6.5.5
     version: 6.5.5(@react-navigation/native@6.1.4)(react-native-safe-area-context@4.4.1)(react-native-screens@3.18.0)(react-native@0.70.5)(react@18.1.0)
@@ -2503,7 +2506,7 @@ packages:
       getenv: 1.0.0
       glob: 7.1.6
       resolve-from: 5.0.0
-      semver: 7.5.3
+      semver: 7.5.4
       slash: 3.0.0
       xcode: 3.0.1
       xml2js: 0.6.0
@@ -2772,6 +2775,12 @@ packages:
 
   /@expo/vector-icons@13.0.0:
     resolution: {integrity: sha512-TI+l71+5aSKnShYclFa14Kum+hQMZ86b95SH6tQUG3qZEmLTarvWpKwqtTwQKqvlJSJrpFiSFu3eCuZokY6zWA==}
+    dev: false
+
+  /@expo/vector-icons@14.0.2:
+    resolution: {integrity: sha512-70LpmXQu4xa8cMxjp1fydgRPsalefnHaXLzIwaHMEzcZhnyjw2acZz8azRrZOslPVAWlxItOa2Dd7WtD/kI+CA==}
+    dependencies:
+      prop-types: 15.8.1
     dev: false
 
   /@expo/websql@1.0.1:
