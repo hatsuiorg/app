@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "hatsui",
+    "slug": "hatsui",
+    "version": "0.0.1",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "githubUrl": "https://github.com/hatsuiorg/hatsui",
+    "android": {
+      "adaptiveIcon": {
+        "monochromeImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#287EF9"
+      },
+      "icon": "./assets/icon.png"
+    }
+  },
+  "platforms": [
+    "android"
+  ],
+  "plugins": [
+    "expo-localization"
+  ]
+}
