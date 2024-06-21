@@ -1,8 +1,30 @@
 import { relations } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-import { ReaderPreferences } from "../models/reader-preferences";
+import { Plugin } from "$/models/plugins";
+import { ReaderPreferences } from "$/models/reader-preferences";
+
+import { Code as LanguageCode } from "$/constants/ietf/BCP_47";
 import { COMMON_COLUMNS, array, json } from "./custom-types";
+
+export const plugins = sqliteTable("plugins", {
+  name: text("name").notNull(),
+  icon: text("icon").notNull(),
+
+  source: text("source").notNull(),
+  version: text("version").notNull(),
+  website: text("website").notNull(),
+
+  language: text("language").notNull().$type<LanguageCode>(),
+
+  ...COMMON_COLUMNS,
+});
+
+export const pluginRelations = relations(plugins, ({ many }) => ({
+  novels: many(novels),
+}));
+
+// Novels
 
 export const novels = sqliteTable("novels", {
   title: text("title").notNull(),
@@ -18,8 +40,22 @@ export const novels = sqliteTable("novels", {
     .default({})
     .notNull(),
 
+  pluginId: text("plugin_id")
+    .references(() => plugins.id)
+    .notNull(),
+
   ...COMMON_COLUMNS,
 });
+
+export const novelRelations = relations(novels, ({ many, one }) => ({
+  chapters: many(novelChapters),
+  plugin: one(plugins, {
+    references: [plugins.id],
+    fields: [novels.pluginId],
+  }),
+}));
+
+// Novel Chapters
 
 export const novelChapters = sqliteTable("novels_chapters", {
   title: text("title").notNull(),
@@ -35,13 +71,21 @@ export const novelChapters = sqliteTable("novels_chapters", {
   ...COMMON_COLUMNS,
 });
 
-export const novelRelations = relations(novels, ({ many }) => ({
-  chapters: many(novelChapters),
-}));
-
 export const novelChaptersRelations = relations(novelChapters, ({ one }) => ({
   novel: one(novels, {
     references: [novels.id],
     fields: [novelChapters.novelId],
   }),
+}));
+
+// Repositories
+
+export const repositories = sqliteTable("repositories", {
+  language: text("language").notNull().$type<LanguageCode>(),
+  plugins: json("plugins").$type<Plugin[]>().notNull().default([]),
+});
+
+export const repositoryRelations = relations(repositories, ({ many }) => ({
+  plugins: many(plugins),
+  novels: many(novels),
 }));
