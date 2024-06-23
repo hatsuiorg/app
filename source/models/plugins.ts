@@ -21,7 +21,8 @@ const _ = scope({
   LanguageCode: BCP_47.ARKTYPE_LANGUAGE_CODE as "string",
 });
 
-export const { Plugin, Repository } = _.export();
+export const { Plugin, Repository, LanguageCode } = _.export();
 
+export type LanguageCode = typeof LanguageCode.infer;
 export type Repository = typeof Repository.infer;
 export type Plugin = typeof Plugin.infer;

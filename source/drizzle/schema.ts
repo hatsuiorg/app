@@ -5,9 +5,18 @@ import { Plugin } from "$/models/plugins";
 import { ReaderPreferences } from "$/models/reader-preferences";
 
 import { Code as LanguageCode } from "$/constants/ietf/BCP_47";
-import { COMMON_COLUMNS, array, json } from "./custom-types";
+
+import {
+  COMMON_COLUMNS,
+  CREATED_AT,
+  UPDATED_AT,
+  array,
+  json,
+} from "./custom-types";
 
 export const plugins = sqliteTable("plugins", {
+  id: text("id").primaryKey().unique().notNull(),
+
   name: text("name").notNull(),
   icon: text("icon").notNull(),
 
@@ -17,7 +26,8 @@ export const plugins = sqliteTable("plugins", {
 
   language: text("language").notNull().$type<LanguageCode>(),
 
-  ...COMMON_COLUMNS,
+  createdAt: CREATED_AT,
+  updatedAt: UPDATED_AT,
 });
 
 export const pluginRelations = relations(plugins, ({ many }) => ({
@@ -81,8 +91,13 @@ export const novelChaptersRelations = relations(novelChapters, ({ one }) => ({
 // Repositories
 
 export const repositories = sqliteTable("repositories", {
+  id: text("id").primaryKey().unique().notNull(),
+
   language: text("language").notNull().$type<LanguageCode>(),
   plugins: json("plugins").$type<Plugin[]>().notNull().default([]),
+
+  createdAt: CREATED_AT,
+  updatedAt: UPDATED_AT,
 });
 
 export const repositoryRelations = relations(repositories, ({ many }) => ({
