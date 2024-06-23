@@ -1,4 +1,4 @@
-export type Code = (typeof IETF_BCP_47)[number]["code"];
+export type Code = string;
 
 export type Language = {
   english: string;

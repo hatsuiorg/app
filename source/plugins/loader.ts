@@ -1,11 +1,14 @@
 import { eq } from "drizzle-orm";
 import * as FileSystem from "expo-file-system";
 
-import { plugins } from "$/drizzle/schema";
 import { sqlite } from "$/drizzle/sqlite";
+import { plugins, repositories } from "$/drizzle/schema";
 
 import { PluginAPI, PluginMetadata } from "./api";
 import { Sandbox, createSandboxPackages } from "./sandbox";
+import { LanguageCode, Plugin, Repository } from "$/models/plugins";
+import { ArkErrors } from "arktype";
+import { flat, forEachObj, keys, map } from "remeda";
 
 const PLUGINS_MAP = new Map<string, PluginAPI>();
 const PLUGINS_DIR = FileSystem.bundleDirectory + "plugins";
@@ -25,7 +28,7 @@ export namespace PluginsLoader {
    * const plugin = await PluginsLoader.loadPlugin({ id: "MangaDex" });
    * ```
    */
-  export async function getLoadedPlugin(
+  export async function loadPlugin(
     options: PluginLoadOptions,
   ): Promise<PluginAPI | null> {
     const cachedPlugin = PLUGINS_MAP.get(options.id);
@@ -42,6 +45,23 @@ export namespace PluginsLoader {
       modules: createSandboxPackages({ metadata }),
       source: code,
     });
+  }
+
+  /**
+   * Loads a plugin based on the provided options.
+   * @returns Boolean indicating whether the plugin was loaded successfully.
+   *
+   * @usage
+   * ```typescript
+   * await PluginsLoader.loadPlugin({ id: "MangaDex" });
+   * ```
+   */
+  export async function unloadPlugin(options: PluginLoadOptions) {
+    const plugin = await loadPlugin(options);
+    if (!plugin) return false;
+
+    PLUGINS_MAP.delete(options.id);
+    return true;
   }
 
   export interface InstallationOptions {
@@ -61,7 +81,72 @@ export namespace PluginsLoader {
   export async function installRepository(
     options: InstallationOptions,
   ): Promise<boolean> {
-    throw new Error();
+    const repository = await getRepository(options.url);
+    if (repository === null) return false;
+
+    const promises = keys(repository)
+      .filter(isLanguageCode)
+      .map(async (language) => {
+        const repositoryExists = await sqlite.query.repositories.findFirst({
+          where: eq(repositories.url, options.url),
+        });
+
+        if (!repositoryExists) {
+          await sqlite.insert(repositories).values({
+            url: options.url,
+            language: language,
+          });
+        }
+
+        const repositoryId = (
+          await sqlite.query.repositories.findFirst({
+            where: eq(repositories.url, options.url),
+          })
+        )?.id;
+
+        if (!repositoryId) {
+          throw new Error(
+            "Repository ID not found in the database after insertion.",
+          );
+        }
+
+        return await Promise.all(
+          map(repository[language], async (plugin) => {
+            const pluginExists = await sqlite.query.plugins.findFirst({
+              where: eq(plugins.id, plugin.id),
+            });
+
+            if (pluginExists) {
+              return false;
+            }
+
+            const fileInfo = await FileSystem.getInfoAsync(
+              `${PLUGINS_DIR}/${plugin.id}.js`,
+              { size: false, md5: false },
+            );
+
+            if (fileInfo.exists) {
+              await FileSystem.deleteAsync(fileInfo.uri, {
+                idempotent: true,
+              });
+            }
+
+            plugin.source = (
+              await FileSystem.downloadAsync(plugin.source, fileInfo.uri)
+            ).uri;
+
+            await sqlite
+              .insert(plugins)
+              .values({ ...plugin, language, repositoryId });
+
+            await loadPlugin({ id: plugin.id });
+
+            return true;
+          }),
+        );
+      });
+
+    return (await Promise.all(promises)).every((x) => x.every(Boolean));
   }
 
   /**
@@ -74,14 +159,61 @@ export namespace PluginsLoader {
    * ```
    * */
   export async function uninstallRepository(
-    options: InstallationOptions,
+    options: InstallationOptions & {
+      removePlugins?: boolean;
+    },
   ): Promise<boolean> {
-    throw new Error();
+    const repository = await getRepository(options.url);
+    if (repository === null) return false;
+
+    const promises = keys(repository)
+      .filter(isLanguageCode)
+      .map(async (code) => {
+        await sqlite
+          .delete(repositories)
+          .where(eq(repositories.url, options.url));
+
+        if (options.removePlugins)
+          return await Promise.all(
+            map(repository[code], async (plugin) => {
+              const pluginExists = await sqlite.query.plugins.findFirst({
+                where: eq(plugins.id, plugin.id),
+              });
+
+              if (!pluginExists) {
+                return false;
+              }
+
+              const fileInfo = await FileSystem.getInfoAsync(
+                `${PLUGINS_DIR}/${plugin.id}.js`,
+                { size: false, md5: false },
+              );
+
+              if (fileInfo.exists) {
+                await FileSystem.deleteAsync(fileInfo.uri, {
+                  idempotent: true,
+                });
+              }
+
+              await unloadPlugin({ id: plugin.id });
+              await sqlite.delete(plugins).where(eq(plugins.id, plugin.id));
+
+              return true;
+            }),
+          );
+
+        return [true];
+      });
+
+    return (await Promise.all(promises)).every((x) => x.every(Boolean));
   }
 
   // Internal Utilities
   // Internal Utilities
   // Internal Utilities
+
+  const isLanguageCode = (value: unknown): value is LanguageCode =>
+    !(LanguageCode(value) instanceof ArkErrors);
 
   /**
    * Retrieves the code of a plugin based on the provided options.
@@ -97,7 +229,7 @@ export namespace PluginsLoader {
     }
 
     const fileInfo = await FileSystem.getInfoAsync(
-      `${PLUGINS_DIR}/${plugin.source}`,
+      `${PLUGINS_DIR}/${plugin.id}.js`,
       { size: false, md5: false },
     );
 
@@ -132,5 +264,16 @@ export namespace PluginsLoader {
       createdAt: plugin.createdAt.toISOString(),
       updatedAt: plugin.updatedAt.toISOString(),
     };
+  }
+
+  /**
+   * Retrieves a repository from the specified URL.
+   * @returns The repository object if successful, or null if an error occurred.
+   */
+  async function getRepository(url: string) {
+    const response = await fetch(url, { method: "GET" });
+    const repository = Repository(await response.json());
+
+    return repository instanceof ArkErrors ? null : repository;
   }
 }

@@ -26,12 +26,20 @@ export const plugins = sqliteTable("plugins", {
 
   language: text("language").notNull().$type<LanguageCode>(),
 
+  repositoryId: integer("repository_id")
+    .references(() => repositories.id)
+    .notNull(),
+
   createdAt: CREATED_AT,
   updatedAt: UPDATED_AT,
 });
 
-export const pluginRelations = relations(plugins, ({ many }) => ({
+export const pluginRelations = relations(plugins, ({ many, one }) => ({
   novels: many(novels),
+  repository: one(repositories, {
+    references: [repositories.id],
+    fields: [plugins.id],
+  }),
 }));
 
 // Novels
@@ -91,13 +99,11 @@ export const novelChaptersRelations = relations(novelChapters, ({ one }) => ({
 // Repositories
 
 export const repositories = sqliteTable("repositories", {
-  id: text("id").primaryKey().unique().notNull(),
-
+  url: text("url").primaryKey().unique().notNull(),
   language: text("language").notNull().$type<LanguageCode>(),
   plugins: json("plugins").$type<Plugin[]>().notNull().default([]),
 
-  createdAt: CREATED_AT,
-  updatedAt: UPDATED_AT,
+  ...COMMON_COLUMNS,
 });
 
 export const repositoryRelations = relations(repositories, ({ many }) => ({
